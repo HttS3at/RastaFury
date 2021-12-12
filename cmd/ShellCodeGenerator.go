@@ -17,7 +17,6 @@ package cmd
 
 import (
 	"RastaShellGenerator/donut"
-	"fmt"
 	"github.com/spf13/cobra"
 	"io/ioutil"
 	"log"
@@ -49,7 +48,7 @@ var err error
 
 // ShellCodeGeneratorCmd represents the ShellCodeGenerator command
 var ShellCodeGeneratorCmd = &cobra.Command{
-	Use:   "ShellCodeGenerator",
+	Use:   "shellcodegenerator",
 	Short: "Disect a PE file and Generate a ShellCode from it",
 	Long:  `Convert a VBS/JS or PE/.NET EXE/DLL to shellcode`,
 
@@ -120,7 +119,7 @@ var ShellCodeGeneratorCmd = &cobra.Command{
 			}
 		} else {
 			payload, err := donut.ShellcodeFromFile(srcfile, config)
-			fmt.Println(payload)
+			//fmt.Println(base64.StdEncoding.EncodeToString([]byte(payload.String())))
 			if err == nil {
 				f, err := os.Create(dstFile)
 				if err != nil {
@@ -153,7 +152,7 @@ func init() {
 	//  -PIC/SHELLCODE OPTIONS-
 	ShellCodeGeneratorCmd.Flags().StringVarP(&arch, "arch", "a", "x84", "Target Architecture: x32, x64, or x84")
 	ShellCodeGeneratorCmd.Flags().IntVarP(&bypass, "bypass", "b", 3, "Bypass AMSI/WLDP : 1=skip, 2=abort on fail, 3=continue on fail.")
-	ShellCodeGeneratorCmd.Flags().StringVarP(&dstFile, "out", "o", "loader.bin", "Output file.")
+	ShellCodeGeneratorCmd.Flags().StringVarP(&dstFile, "out", "o", "defaultc2client.bin", "Output file.")
 	ShellCodeGeneratorCmd.Flags().IntVarP(&format, "format", "f", 1, "Output format. 1=raw, 2=base64, 3=c, 4=ruby, 5=python, 6=powershell, 7=C#, 8=hex")
 	ShellCodeGeneratorCmd.Flags().StringVarP(&oepString, "oep", "y", "", "Create a new thread for loader. Optionally execute original entrypoint of host process.")
 	ShellCodeGeneratorCmd.Flags().IntVarP(&action, "exit", "x", 1, "Exiting. 1=exit thread, 2=exit process")

